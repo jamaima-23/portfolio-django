@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="fas fa-code me-2"></i>
+            {% if bio %}{{ bio.name }}{% else %}My Portfolio{% endif %}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#bio">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+                <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ============ HERO / BIO SECTION ============ -->
+<section id="bio" class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            {% if bio %}
+            <div class="col-lg-6 text-white">
+                <p class="hero-subtitle">Hello, I'm</p>
+                <h1 class="hero-title">{{ bio.name }}</h1>
+                <h3 class="hero-job">{{ bio.job_title }}</h3>
+                <p class="hero-desc">{{ bio.description }}</p>
+                <a href="#projects" class="btn btn-primary btn-lg me-3">View Projects</a>
+                <a href="#bio" class="btn btn-outline-light btn-lg">Contact Me</a>
+            </div>
+            <div class="col-lg-6 text-center">
+                {% if bio.profile_picture %}
+                <img src="{{ bio.profile_picture.url }}" alt="{{ bio.name }}" class="profile-img">
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-white">
+                <h2>Welcome to My Portfolio</h2>
+                <p>Please add Bio data from <a href="/admin" class="text-warning">Admin Panel</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ============ EDUCATION SECTION ============ -->
+<section id="education" class="py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">Education</h2>
+            <p class="section-subtitle">My Academic Background</p>
+        </div>
+        <div class="row">
+            {% if educations %}
+                {% for edu in educations %}
+                <div class="col-lg-6 mb-4">
+                    <div class="education-card">
+                        <div class="edu-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="edu-content">
+                            <span class="edu-session">{{ edu.session }}</span>
+                            <h4 class="edu-degree">{{ edu.degree }}</h4>
+                            <h6 class="edu-institute">
+                                <i class="fas fa-university me-2"></i>{{ edu.institute }}
+                            </h6>
+                            <p class="edu-desc">{{ edu.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No education data yet. Add from <a href="/admin">Admin Panel</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ============ SKILLS SECTION ============ -->
+<section id="skills" class="py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">Skills</h2>
+            <p class="section-subtitle">My Technical Skills</p>
+        </div>
+        <div class="row">
+            {% if skills %}
+                {% for skill in skills %}
+                <div class="col-lg-6 mb-4">
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">{{ skill.name }}</span>
+                            <span class="skill-percent">{{ skill.percentage }}%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"
+                                style="width: {{ skill.percentage }}%"
+                                aria-valuenow="{{ skill.percentage }}"
+                                aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No skills data yet. Add from <a href="/admin">Admin Panel</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ============ EXPERIENCE SECTION ============ -->
+<section id="experience" class="py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">My Work Experience</p>
+        </div>
+        <div class="row">
+            {% if experiences %}
+                {% for exp in experiences %}
+                <div class="col-lg-6 mb-4">
+                    <div class="experience-card">
+                        <div class="exp-header">
+                            <h4 class="exp-position">{{ exp.position }}</h4>
+                            <span class="exp-duration">
+                                <i class="fas fa-calendar me-1"></i>{{ exp.duration }}
+                            </span>
+                        </div>
+                        <h6 class="exp-org">
+                            <i class="fas fa-building me-2"></i>{{ exp.organization }}
+                        </h6>
+                        <p class="exp-desc">{{ exp.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No experience data yet. Add from <a href="/admin">Admin Panel</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ============ PROJECTS SECTION ============ -->
+<section id="projects" class="py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">Projects</h2>
+            <p class="section-subtitle">My Recent Work</p>
+        </div>
+        <div class="row">
+            {% if projects %}
+                {% for project in projects %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="project-card">
+                        <div class="project-body">
+                            <h4 class="project-title">{{ project.title }}</h4>
+                            <div class="project-tech">
+                                <i class="fas fa-code me-2"></i>{{ project.technologies }}
+                            </div>
+                            <p class="project-desc">{{ project.description }}</p>
+                        </div>
+                        <div class="project-footer">
+                            {% if project.link %}
+                            <a href="{{ project.link }}" target="_blank" class="btn btn-primary btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>View Project
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No projects yet. Add from <a href="/admin">Admin Panel</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+    <div class="container text-center">
+        <p class="mb-0">
+            &copy; 2024
+            {% if bio %}{{ bio.name }}{% else %}My Portfolio{% endif %}
+            — Made with <i class="fas fa-heart text-danger"></i> using Django
+        </p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Navbar scroll effect -->
+<script>
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('mainNav');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+</script>
+
+</body>
+</html>
